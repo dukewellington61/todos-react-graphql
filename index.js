@@ -35,29 +35,39 @@ const accountsServer = new AccountsServer(
   }
 );
 
-const Tasks = mongoose.model("Task", { text: String, userid: String });
+const Tasks = mongoose.model("Task", {
+  text: String,
+  userid: String,
+  completed: Boolean,
+});
 
 const typeDefs = gql`
   type Query {
     # This query will be protected so only authenticated users can access it
     sensitiveInformation: String @auth
+    getTasks: [Task]
   }
 
   type Task {
     id: ID!
     text: String!
     userid: ID!
+    completed: Boolean
   }
 
   type Mutation {
     addTask(text: String!, userid: ID!): Task!
     removeTask(taskid: ID!): Task!
+    markAsCompleted(taskid: ID!): Task!
   }
 `;
 
 const resolvers = {
   Query: {
-    sensitiveInformation: () => "Sensitive info",
+    getTasks: async () => {
+      const taskArray = await Tasks.find();
+      return taskArray;
+    },
   },
   Mutation: {
     addTask: async (_, { text, userid }) => {
@@ -70,6 +80,12 @@ const resolvers = {
       const task = await Tasks.findById(taskid);
       console.log(task);
       await task.remove();
+      return task;
+    },
+    markAsCompleted: async (_, { taskid }) => {
+      const task = await Tasks.findById(taskid);
+      task.completed = !task.completed;
+      await task.save();
       return task;
     },
   },
