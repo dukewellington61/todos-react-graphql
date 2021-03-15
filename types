@@ -1,0 +1,16 @@
+ type Mutation {
+    addTask(task: CreateTaskInput!): AddTaskResponse
+  }
+
+  type AddTaskResponse {
+    id: ID!
+    text: String!
+  }
+
+  type Task {
+    id: ID!
+    text: String!
+  }
+
+  input CreateTaskInput {
+    text: String!   

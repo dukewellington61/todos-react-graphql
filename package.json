@@ -1,0 +1,28 @@
+{
+  "name": "accounts-js-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "server": "nodemon server.js",
+    "start": "nodemon src/index.js",
+    "start:ci": "node src/index.js",
+    "client": "cd ../ && npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@accounts/graphql-api": "^0.31.1",
+    "@accounts/mongo": "^0.31.1",
+    "@accounts/password": "^0.31.1",
+    "@accounts/server": "^0.31.1",
+    "@graphql-modules/core": "^0.7.17",
+    "@graphql-tools/merge": "^6.2.7",
+    "apollo-server": "^2.19.2",
+    "graphql": "^15.5.0",
+    "mongoose": "^5.11.14",
+    "nodemon": "^2.0.7"
+  }
+}
